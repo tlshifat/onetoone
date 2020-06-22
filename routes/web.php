@@ -160,3 +160,36 @@ Route::get('/deletep',function (){
     return $staff->photos()->whereId(1)->delete();
 });
 
+
+
+//polymorphic from audio  to tag and video to tag || look up taggable table
+Route::get('/createpp',function (){
+//    $user = \App\Audio::create(['name'=>'Staff 1']);
+//    $user = \App\Video::create(['name'=>'Product 1']);
+//    $user = \App\Tag::create(['name'=>'Tag 1']);
+    $video = \App\Video::findOrFail(1);
+    return $video->tags()->save(new \App\Tag(['name'=>'hot']));
+});
+
+Route::get('/readpp',function (){
+    $video = \App\Video::findOrFail(1);
+    return $video->tags;
+});
+
+Route::get('/updatepp',function (){
+    $video = \App\Video::findOrFail(1);
+    foreach ($video->tags as $tag){
+        $tag->whereId(1)->update(['name'=>'Update PHP']);
+    }
+    return $video->tags;
+});
+
+Route::get('/deletepp',function (){
+    $video = \App\Video::findOrFail(1);
+    foreach ($video->tags as $tag){
+        $tag->whereId(1)->delete();
+    }
+    return $video->tags;
+});
+
+
