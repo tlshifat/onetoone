@@ -47,3 +47,77 @@ Route::get('/delete', function () {
     return $address;
 });
 
+//one to many
+Route::get('/create', function () {
+    $user = \App\User::find(1);
+    $post = new \App\Post(["name"=>"CTG"]);
+
+    return $user->posts()->save($post);
+});
+
+
+Route::get('/reads', function () {
+    $user = \App\User::find(1);
+    return $user->posts;
+});
+
+Route::get('/updates', function () {
+    $user = \App\User::find(1);
+    return $user->posts()->whereId(1)->save(new \App\Post(['name'=>'updated post']));
+
+});
+
+Route::get('/deletes', function () {
+    $user = \App\User::find(1);
+    return $user->posts()->whereId(1)->delete();
+
+});
+
+
+//many to many pivot table
+Route::get('/create_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles()->save(new \App\Role(['name'=>'sub']));
+});
+
+//many to many pivot table
+Route::get('/update_many', function () {
+    $user = \App\User::find(1);
+    foreach ($user->roles as $role){
+        $role->name = "sb";
+        $role->save();
+    }
+});
+
+
+//many to many pivot table
+Route::get('/read_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles;
+});
+
+//many to many pivot table
+Route::get('/delete_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles()->delete();
+});
+
+
+//many to many pivot table
+Route::get('/attach_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles()->attach([1]);
+});
+
+//many to many pivot table
+Route::get('/detach_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles()->detach([1]);
+});
+
+
+//many to many pivot table
+Route::get('/sync_many', function () {
+    $user = \App\User::find(1);
+    return $user->roles()->sync([1,2,3]);
+});

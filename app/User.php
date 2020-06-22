@@ -40,4 +40,12 @@ class User extends Authenticatable
     public function address(){
         return $this->hasOne('App\Address','user_id');
     }
+
+    public function posts(){
+        return $this->hasMany('App\Post','user_id');
+    }
+
+    public function roles(){
+        return $this->belongsToMany('App\Role');
+    }
 }
