@@ -121,3 +121,42 @@ Route::get('/sync_many', function () {
     $user = \App\User::find(1);
     return $user->roles()->sync([1,2,3]);
 });
+
+
+//polymorphic from staff to photo and production to photo
+Route::get('/createp',function (){
+    //$user = \App\Staff::create(['name'=>'Staff 1']);
+    //$user = \App\Product::create(['name'=>'Product 1']);
+    $staff = \App\Staff::findOrFail(1);
+    $staff->photos()->save(new \App\Photo(['path'=>'staff.photo']));
+
+});
+
+//polymorphic from staff to photo and production to photo
+Route::get('/readp',function (){
+    //$user = \App\Staff::create(['name'=>'Staff 1']);
+    //$user = \App\Product::create(['name'=>'Product 1']);
+    $staff = \App\Staff::findOrFail(1);
+    return $staff->photos;
+
+});
+
+
+//polymorphic from staff to photo and production to photo
+Route::get('/updatep',function (){
+    //$user = \App\Staff::create(['name'=>'Staff 1']);
+    //$user = \App\Product::create(['name'=>'Product 1']);
+    $staff = \App\Staff::findOrFail(1);
+    $photo= $staff->photos()->whereId(1)->first();
+    $photo->path= 'updated photo.photo';
+    return $photo->save();
+});
+
+//polymorphic from staff to photo and production to photo
+Route::get('/deletep',function (){
+    //$user = \App\Staff::create(['name'=>'Staff 1']);
+    //$user = \App\Product::create(['name'=>'Product 1']);
+    $staff = \App\Staff::findOrFail(1);
+    return $staff->photos()->whereId(1)->delete();
+});
+
